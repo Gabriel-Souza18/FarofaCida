@@ -5,15 +5,62 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/Fundo"
     tools:context=".MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
+
+        <Button
+            android:id="@+id/btn_cadastrarVenda"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/Amarelo2"
+            android:shadowColor="@color/black"
+            android:textColor="@color/black"
+            android:text="Cadastrar Venda"
+           />
+
+        <Button
+            android:id="@+id/btn_cadastrarCompra"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cadastar Compra"
+            android:backgroundTint="@color/Amarelo2"
+            android:shadowColor="@color/black"
+            android:textColor="@color/black" />
+
+        <Button
+            android:id="@+id/btn_checarVendas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/Amarelo2"
+            android:shadowColor="@color/black"
+            android:textColor="@color/black"
+            android:text="Checar Vendas" />
+
+        <Button
+            android:id="@+id/btn_checarCompras"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/Amarelo2"
+            android:shadowColor="@color/black"
+            android:textColor="@color/black"
+            android:text="Checar Compras" />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

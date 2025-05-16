@@ -2,4 +2,9 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="Fundo">#FAF8C2</color>
+    <color name="Amarelo1">#F3EE6D</color>
+    <color name="Amarelo2">#ECE319</color>"
+    <color name="roxo1">#6D72F3</color>
+    <color name="roxo2">#4719EC</color>
 </resources>
