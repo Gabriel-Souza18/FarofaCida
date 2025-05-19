@@ -29,7 +29,8 @@
             android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Cliente" />
+            android:text="Cliente"
+            android:textColor="@color/black"/>
 
         <EditText
             android:id="@+id/etCVenda_nome"
@@ -37,55 +38,82 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="text"
-            android:text="Nome" />
+            android:text="Nome"
+            android:textColor="@color/black"/>
 
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Data" />
-
-        <EditText
-            android:id="@+id/etCVenda_Data"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="text"
-            android:text="DATA" />
 
         <TextView
             android:id="@+id/textView3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Valor Unitario" />
+            android:text="Valor Unitario"
+            android:textColor="@color/black"/>
 
         <EditText
             android:id="@+id/etCVenda_valor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="text"
-            android:text="Name" />
+            android:inputType="number"
+            android:text="12"
+            android:textColor="@color/black" />
 
         <TextView
             android:id="@+id/textView4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Quantidade" />
+            android:text="Quantidade"
+            android:textColor="@color/black"/>
 
         <EditText
             android:id="@+id/etCVenda_quantidade"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="text"
-            android:text="Name" />
+            android:inputType="number"
+            android:hint="Quantidade"
+            android:textColor="@color/black" />
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Forma de Pagamento"
+            android:textColor="@color/black"/>
+
+        <EditText
+            android:id="@+id/etCVenda_pagamento"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="number"
+            android:text="Pagamento"
+            android:textColor="@color/black" />
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Data da Venda"
+            android:textColor="@color/black">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etDataVenda"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none"
+                android:focusable="false"
+                android:clickable="true"
+                android:textColor="@color/black"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/btn_cadastarVenda"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Cadastrar Venda" />
+            android:text="Cadastrar Venda"
+            android:backgroundTint="@color/Amarelo2"
+            android:shadowColor="@color/black"
+            android:textColor="@color/black"/>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

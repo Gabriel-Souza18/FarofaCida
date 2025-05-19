@@ -22,7 +22,7 @@
             android:name=".CadastroVenda"
             android:exported="false" />
         <activity
-            android:name=".CadatroCompra"
+            android:name=".CadastroCompra"
             android:exported="false" />
         <activity
             android:name=".novaVenda"

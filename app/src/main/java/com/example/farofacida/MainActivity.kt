@@ -1,6 +1,8 @@
 package com.example.farofacida
 
+import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -16,5 +18,15 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+    }
+
+    fun CadastroVenda(view: View){
+        val intent = Intent(this, CadastroVenda::class.java)
+        view.context.startActivity(intent)
+
+    }
+    fun CadastroCompra(view: View){
+        val intent = Intent(this, CadastroCompra::class.java)
+        view.context.startActivity(intent)
     }
 }

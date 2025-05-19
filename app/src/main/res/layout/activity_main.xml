@@ -29,18 +29,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/Amarelo2"
+            android:onClick="CadastroVenda"
             android:shadowColor="@color/black"
-            android:textColor="@color/black"
             android:text="Cadastrar Venda"
-           />
+            android:textColor="@color/black" />
 
         <Button
             android:id="@+id/btn_cadastrarCompra"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Cadastar Compra"
             android:backgroundTint="@color/Amarelo2"
+            android:onClick="CadastroCompra"
             android:shadowColor="@color/black"
+            android:text="Cadastar Compra"
             android:textColor="@color/black" />
 
         <Button

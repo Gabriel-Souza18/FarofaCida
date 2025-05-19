@@ -1,34 +1,35 @@
 package com.example.farofacida
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import android.app.DatePickerDialog
+import android.view.View
 import android.widget.Toast
 import com.google.android.material.textfield.TextInputEditText
 import java.text.SimpleDateFormat
 import java.util.*
 
-class CadastroVenda : AppCompatActivity() {
 
+class CadastroCompra : AppCompatActivity() {
 
-    private lateinit var etDataVenda: TextInputEditText
+    private lateinit var etDataCompra : TextInputEditText
     private val calendario = Calendar.getInstance()
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_cadastro_venda)
+        setContentView(R.layout.activity_cadastro_compra)
 
-        etDataVenda = findViewById(R.id.etDataVenda)
+        etDataCompra = findViewById(R.id.etDataCompra)
 
         // Configurar o clique no campo de data
-        etDataVenda.setOnClickListener {
+        etDataCompra.setOnClickListener {
             mostrarSeletorData()
         }
     }
+    fun NovoIngrediente(view: View){
+        Toast.makeText(this, "Novo Ingrediente", Toast.LENGTH_SHORT).show()
+    }
+
     private fun mostrarSeletorData(){
         val ano = calendario.get(Calendar.YEAR)
         val mes = calendario.get(Calendar.MONTH)
@@ -41,9 +42,10 @@ class CadastroVenda : AppCompatActivity() {
                 val formato = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
                 val dataFormatada = formato.format(calendario.time)
 
-                etDataVenda.setText(dataFormatada)
+                etDataCompra.setText(dataFormatada)
             },ano, mes, dia,
         )
         datePickerDialog.show()
     }
 }
+
