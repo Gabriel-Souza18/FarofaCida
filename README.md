@@ -16,12 +16,10 @@ app <br/>
 │ └── res # Recursos (Layouts, Drawables, Strings) <br/>
 └── build.gradle.kts # Configuração do build do módulo <br/>
 
-## Modelo do Banco de Dados
-Diagrama do BD: 
-[DBdiagram](https://dbdiagram.io/d/681d5ee55b2fc4582fd74068).
-
 ### Banco de dados
-* MySQL - [Documentação MySQL]( https://www.mysql.com/)
+* SQLite
+* Diagrama do BD: 
+[DBdiagram](https://dbdiagram.io/d/681d5ee55b2fc4582fd74068).
 ## API
 * Pagamento por pix
 
