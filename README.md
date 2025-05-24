@@ -19,7 +19,7 @@ app <br/>
 ### Banco de dados
 * SQLite
 * Diagrama do BD: 
-[DBdiagram](https://dbdiagram.io/d/681d5ee55b2fc4582fd74068).
+<img src="FarofaCida.png" alt="Diagrama">
 ## API
 * Pagamento por pix
 
