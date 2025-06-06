@@ -10,7 +10,7 @@ import androidx.annotation.Nullable;
 public class CriaBanco extends SQLiteOpenHelper{
     //Tabela Cliente
     // Nome do banco e versão
-    private static final String DB_NOME = "farofas.db";
+    private static final String DB_NOME = "Teste.db";
     private static final int DB_VERSAO = 1;
 
     //Tabela Cliente
@@ -24,6 +24,7 @@ public class CriaBanco extends SQLiteOpenHelper{
     private static final String COL_VENDA_ID = "id";
     private static final String COL_VENDA_VALOR = "valor";
     private static final String COL_VENDA_DATA = "data";
+    private static final String COL_VENDA_PAGAMENTO = "pagamento";
     private static final String COL_VENDA_CLIENTE = "idCliente";
     private static final String COL_VENDA_QUANTIDADE = "quantidade";
 
@@ -47,6 +48,7 @@ public class CriaBanco extends SQLiteOpenHelper{
     private static final String COL_INGREDIENTE_MEDIDA = "unidadeMedida";
 
 
+
     public CriaBanco(@Nullable Context context) {
         super(context, DB_NOME, null, DB_VERSAO);
     }
@@ -64,6 +66,7 @@ public class CriaBanco extends SQLiteOpenHelper{
                     COL_VENDA_CLIENTE + " INTEGER NOT NULL, " +
                     COL_VENDA_VALOR + " REAL NOT NULL, " +
                     COL_VENDA_QUANTIDADE + " INTEGER NOT NULL, " +
+                    COL_VENDA_PAGAMENTO + " TEXT NOT NULL, " +
                     COL_VENDA_DATA + " TEXT NOT NULL, " +
                     "FOREIGN KEY(" + COL_VENDA_CLIENTE + ") REFERENCES " +
                     TABELA_CLIENTE + "(" + COL_CLIENTE_ID + "))";
@@ -109,14 +112,15 @@ public class CriaBanco extends SQLiteOpenHelper{
         db.close();
         Log.e("BD", "Cliente adicionado com sucesso.");
     }
-    public void addVenda(int idCliente, double valor, int quantidade, String data){
+    public void addVenda(int idCliente, double valor, int quantidade, String pagamento, String data){
         SQLiteDatabase db = this.getWritableDatabase();
         String sql = "INSERT INTO " + TABELA_VENDA + " (" +
                 COL_VENDA_CLIENTE + ", " +
                 COL_VENDA_VALOR + ", " +
                 COL_VENDA_QUANTIDADE + ", " +
-                COL_VENDA_DATA + ") VALUES (?,?,?,?)";
-        db.execSQL(sql, new Object[]{idCliente, valor, quantidade, data});
+                COL_VENDA_PAGAMENTO + ", " +
+                COL_VENDA_DATA + ") VALUES (?,?,?,?,?)";
+        db.execSQL(sql, new Object[]{idCliente, valor, quantidade,pagamento ,data});
         db.close();
         Log.e("BD", "Venda adicionada com sucesso.");
     }
@@ -289,10 +293,18 @@ public class CriaBanco extends SQLiteOpenHelper{
         Log.d("BD", "Tabela Venda:");
         while (c.moveToNext()) {
             Log.d("BD", "id: " + c.getInt(0) + ", idCliente: " + c.getInt(1) + ", valor: " + c.getDouble(2) +
-                    ", quantidade: " + c.getInt(3) + ", data: " + c.getString(4));
+                    ", quantidade: " + c.getInt(3) +"Pagamento"+c.getString(4) +", data: " + c.getString(5));
         }
         c.close();
 
         db.close();
+    }
+    public int  ClientebyName(String nome, String sobrenome){
+       SQLiteDatabase db = this.getWritableDatabase();
+       String sql = "SELECT id FROM " + TABELA_CLIENTE + " WHERE " + COL_CLIENTE_NOME + " = ? AND " + COL_CLIENTE_SOBRENOME + " = ?";
+
+       Cursor cursor = db.rawQuery(sql, new String[]{nome, sobrenome});
+
+       return cursor.moveToFirst() ? cursor.getInt(0) : -1; // Retorna o ID do cliente ou -1 se não encontrado
     }
 }

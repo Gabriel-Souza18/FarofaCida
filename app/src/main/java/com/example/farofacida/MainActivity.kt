@@ -23,13 +23,6 @@ class MainActivity : AppCompatActivity() {
     }
     fun testarBanco(view: View){
         val db = CriaBanco(this)
-        db.addCliente("Gabriel", "Souza")
-        db.addIngrediente("Farinha", "kg")
-        db.addCompra("Mercado")
-        db.addCompraIngrediente(1,1, 2, 10.0)
-        db.addVenda(1, 10.0, 2, "10/10/2023")
-
-
         db.printarTabelas()
     }
     fun LimparBanco(view: View){
