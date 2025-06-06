@@ -30,13 +30,12 @@ public class CriaBanco extends SQLiteOpenHelper{
 
     //Tabela Compra
     private static final String TABELA_COMPRA = "Compra";
-    private static final String COL_COMPRA_ID = "id";
     private static final String COL_COMPRA_LUGAR = "lugar";
     private static final String COL_COMPRA_DATA = "data";
 
     //Tabela compraIngrediente
     private static final String TABELA_COMPRA_INGREDIENTE ="CompraIngrediente";
-    private static final String COL_COMPRA_INGR_COMPRA_ID = "idCompra";
+    private static final String COL_COMPRA_INGR_COMPRA_DATA = "idCompra";
     private static final String COL_COMPRA_INGR_ID = "id";
     private static final String COL_COMPRA_INGR_INGREDIENTE_ID = "idIngrediente";
     private static final String COL_COMPRA_INGR_QUANTIDADE = "quantidade";
@@ -72,20 +71,20 @@ public class CriaBanco extends SQLiteOpenHelper{
                     TABELA_CLIENTE + "(" + COL_CLIENTE_ID + "))";
 
             String sql_compra = "CREATE TABLE " + TABELA_COMPRA + " (" +
-                    COL_COMPRA_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    COL_COMPRA_DATA + "TEXT NOT NULL PRIMARY KEY, " +
                     COL_COMPRA_LUGAR + " TEXT NOT NULL)";
 
-            //TODO: ADD data e colocar ela como pk
+
             String sql_compraIngrediente = "CREATE TABLE " + TABELA_COMPRA_INGREDIENTE + " (" +
                     COL_COMPRA_INGR_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    COL_COMPRA_INGR_COMPRA_ID + " INTEGER NOT NULL, " +
+                    COL_COMPRA_INGR_COMPRA_DATA + " TEXT NOT NULL, " +
                     COL_COMPRA_INGR_INGREDIENTE_ID + " INTEGER NOT NULL, " +
                     COL_COMPRA_INGR_QUANTIDADE + " INTEGER NOT NULL, " +
                     COL_COMPRA_INGR_PRECO + " REAL NOT NULL, " +
                     "FOREIGN KEY(" + COL_COMPRA_INGR_INGREDIENTE_ID + ") REFERENCES " +
                     TABELA_INGREDIENTE + "(" + COL_INGREDIENTE_ID + "), " +
-                    "FOREIGN KEY(" + COL_COMPRA_INGR_COMPRA_ID + ") REFERENCES " +
-                    TABELA_COMPRA + "(" + COL_COMPRA_ID + "))";
+                    "FOREIGN KEY(" + COL_COMPRA_INGR_COMPRA_DATA + ") REFERENCES " +
+                    TABELA_COMPRA + "(" + COL_COMPRA_DATA + "))";
 
             String sql_ingrediente = "CREATE TABLE " + TABELA_INGREDIENTE + " (" +
                     COL_INGREDIENTE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -127,20 +126,20 @@ public class CriaBanco extends SQLiteOpenHelper{
     public void addCompra(String lugar, String data){
         SQLiteDatabase db = this.getWritableDatabase();
         String sql = "INSERT INTO " + TABELA_COMPRA + " (" +
-                COL_COMPRA_LUGAR +
-                COL_COMPRA_DATA + ") VALUES (?,?)";
-        db.execSQL(sql, new Object[]{lugar, data} );
+                COL_COMPRA_DATA +
+                COL_COMPRA_LUGAR + ") VALUES (?,?)";
+        db.execSQL(sql, new Object[]{data,lugar} );
         db.close();
         Log.e("BD", "Compra adicionada com sucesso.");
     }
-    public void addCompraIngrediente(int idIngrediente, int idCompra, int quantidade, double preco){
+    public void addCompraIngrediente(int idIngrediente, String dataCompra, int quantidade, double preco){
         SQLiteDatabase db = this.getWritableDatabase();
         String sql = "INSERT INTO " + TABELA_COMPRA_INGREDIENTE + " (" +
                 COL_COMPRA_INGR_INGREDIENTE_ID + ", " +
-                COL_COMPRA_INGR_COMPRA_ID + ", " +
+                COL_COMPRA_INGR_COMPRA_DATA+ ", " +
                 COL_COMPRA_INGR_QUANTIDADE+ ", " +
                 COL_COMPRA_INGR_PRECO + ") VALUES (?,?,?,?)";
-        db.execSQL(sql, new Object[]{idIngrediente, idCompra, quantidade, preco});
+        db.execSQL(sql, new Object[]{idIngrediente, dataCompra, quantidade, preco});
         db.close();
         Log.e("BD", "CompraIngrediente adicionado com sucesso.");
     }
@@ -168,10 +167,10 @@ public class CriaBanco extends SQLiteOpenHelper{
         Log.e("BD", "Venda removida com sucesso.");
     }
 
-    public void removerCompra(int id){
+    public void removerCompra(String dataCompra){
         SQLiteDatabase db = this.getWritableDatabase();
-        String sql = "DELETE FROM " + TABELA_COMPRA + " WHERE " + COL_COMPRA_ID + " = ?";
-        db.execSQL(sql, new String[]{String.valueOf(id)});
+        String sql = "DELETE FROM " + TABELA_COMPRA + " WHERE " + COL_COMPRA_DATA + " = ?";
+        db.execSQL(sql, new String[]{String.valueOf(dataCompra)});
         db.close();
         Log.e("BD", "Compra removida com sucesso.");
     }
