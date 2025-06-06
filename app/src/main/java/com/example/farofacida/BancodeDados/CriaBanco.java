@@ -10,7 +10,7 @@ import androidx.annotation.Nullable;
 public class CriaBanco extends SQLiteOpenHelper{
     //Tabela Cliente
     // Nome do banco e versão
-    private static final String DB_NOME = "Teste.db";
+    private static final String DB_NOME = "Teste2.db";
     private static final int DB_VERSAO = 1;
 
     //Tabela Cliente
@@ -32,6 +32,7 @@ public class CriaBanco extends SQLiteOpenHelper{
     private static final String TABELA_COMPRA = "Compra";
     private static final String COL_COMPRA_ID = "id";
     private static final String COL_COMPRA_LUGAR = "lugar";
+    private static final String COL_COMPRA_DATA = "data";
 
     //Tabela compraIngrediente
     private static final String TABELA_COMPRA_INGREDIENTE ="CompraIngrediente";
@@ -45,7 +46,6 @@ public class CriaBanco extends SQLiteOpenHelper{
     private static final String TABELA_INGREDIENTE = "Ingrediente";
     private static final String COL_INGREDIENTE_ID = "id";
     private static final String COL_INGREDIENTE_NOME = "nome";
-    private static final String COL_INGREDIENTE_MEDIDA = "unidadeMedida";
 
 
 
@@ -75,6 +75,7 @@ public class CriaBanco extends SQLiteOpenHelper{
                     COL_COMPRA_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     COL_COMPRA_LUGAR + " TEXT NOT NULL)";
 
+            //TODO: ADD data e colocar ela como pk
             String sql_compraIngrediente = "CREATE TABLE " + TABELA_COMPRA_INGREDIENTE + " (" +
                     COL_COMPRA_INGR_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     COL_COMPRA_INGR_COMPRA_ID + " INTEGER NOT NULL, " +
@@ -88,8 +89,7 @@ public class CriaBanco extends SQLiteOpenHelper{
 
             String sql_ingrediente = "CREATE TABLE " + TABELA_INGREDIENTE + " (" +
                     COL_INGREDIENTE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    COL_INGREDIENTE_NOME + " TEXT NOT NULL, " +
-                    COL_INGREDIENTE_MEDIDA + " TEXT NOT NULL)";
+                    COL_INGREDIENTE_NOME + " TEXT NOT NULL )" ;
         db.execSQL(sql_cliente);
         db.execSQL(sql_venda);
         db.execSQL(sql_compra);
@@ -124,11 +124,12 @@ public class CriaBanco extends SQLiteOpenHelper{
         db.close();
         Log.e("BD", "Venda adicionada com sucesso.");
     }
-    public void addCompra(String lugar){
+    public void addCompra(String lugar, String data){
         SQLiteDatabase db = this.getWritableDatabase();
         String sql = "INSERT INTO " + TABELA_COMPRA + " (" +
-                COL_COMPRA_LUGAR + ") VALUES (?)";
-        db.execSQL(sql, new String[]{lugar});
+                COL_COMPRA_LUGAR +
+                COL_COMPRA_DATA + ") VALUES (?,?)";
+        db.execSQL(sql, new Object[]{lugar, data} );
         db.close();
         Log.e("BD", "Compra adicionada com sucesso.");
     }
@@ -143,12 +144,11 @@ public class CriaBanco extends SQLiteOpenHelper{
         db.close();
         Log.e("BD", "CompraIngrediente adicionado com sucesso.");
     }
-    public void addIngrediente(String nome, String unidadeMedida){
+    public void addIngrediente(String nome){
         SQLiteDatabase db = this.getWritableDatabase();
         String sql = "INSERT INTO " + TABELA_INGREDIENTE + " (" +
-                COL_INGREDIENTE_NOME + ", " +
-                COL_INGREDIENTE_MEDIDA + ") VALUES (?,?)";
-        db.execSQL(sql, new String[]{nome, unidadeMedida});
+                COL_INGREDIENTE_NOME +" ) VALUES (?)";
+        db.execSQL(sql, new String[]{nome });
         db.close();
         Log.e("BD", "Ingrediente adicionado com sucesso.");
     }
@@ -242,11 +242,6 @@ public class CriaBanco extends SQLiteOpenHelper{
         String sql = Querys.SELECT_VENDA_BY_ID;
         return db.rawQuery(sql, new String[]{String.valueOf(id)});
     }
-    public Cursor consultarCompraPorId(int id) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        String sql = Querys.SELECT_COMPRA_BY_ID;
-        return db.rawQuery(sql, new String[]{String.valueOf(id)});
-    }
     public Cursor comprasPorClienteId(int idCliente) {
         SQLiteDatabase db = this.getReadableDatabase();
         String sql = Querys.SELECT_COMPRAS_BY_CLIENTE_ID;
@@ -306,5 +301,19 @@ public class CriaBanco extends SQLiteOpenHelper{
        Cursor cursor = db.rawQuery(sql, new String[]{nome, sobrenome});
 
        return cursor.moveToFirst() ? cursor.getInt(0) : -1; // Retorna o ID do cliente ou -1 se não encontrado
+    }
+    public int getIdIngrediente(String nome){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String sql = "SELECT id FROM "+ TABELA_INGREDIENTE + " WHERE " + COL_INGREDIENTE_NOME + " = ?";
+        Cursor cursor = db.rawQuery(sql, new String[]{nome});
+
+    return cursor.moveToFirst() ? cursor.getInt(0) : -1; // Retorna o ID do ingrediente ou -1 se não encontrado
+    }
+    public int getIdCompra(String Data){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String sql = "SELECT id FROM "+ TABELA_COMPRA + " WHERE " + COL_COMPRA_DATA + " = ?";
+        Cursor cursor = db.rawQuery(sql, new String[]{Data});
+
+        return cursor.moveToFirst() ? cursor.getInt(0) : -1; // Retorna o ID da compra ou -1 se não encontrado
     }
 }

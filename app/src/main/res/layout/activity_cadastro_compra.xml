@@ -43,6 +43,12 @@
                 app:srcCompat="@android:drawable/ic_input_add" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvIngredientes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp" />
+
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -64,6 +70,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/Amarelo2"
+            android:onClick="CadastrarCompra"
             android:shadowColor="@color/black"
             android:text="Cadastrar Compra"
             android:textColor="@color/black" />
