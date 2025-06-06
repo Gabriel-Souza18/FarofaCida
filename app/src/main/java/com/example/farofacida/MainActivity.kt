@@ -27,9 +27,15 @@ class MainActivity : AppCompatActivity() {
         db.addIngrediente("Farinha", "kg")
         db.addCompra("Mercado")
         db.addCompraIngrediente(1,1, 2, 10.0)
+        db.addVenda(1, 10.0, 2, "10/10/2023")
 
-        db.printarClientes()
-        db.printarCompras()
+
+        db.printarTabelas()
+    }
+    fun LimparBanco(view: View){
+        val db = CriaBanco(this)
+        db.limparBanco()
+        db.close()
     }
     fun cadastroVenda(view: View){
         val intent = Intent(this, CadastroVenda::class.java)

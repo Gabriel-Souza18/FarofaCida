@@ -69,6 +69,13 @@
             android:onClick="testarBanco"
             android:text="Teste BD" />
 
+        <Button
+            android:id="@+id/button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="LimparBanco"
+            android:text="LimparBanco" />
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

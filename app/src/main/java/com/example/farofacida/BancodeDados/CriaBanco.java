@@ -92,6 +92,7 @@ public class CriaBanco extends SQLiteOpenHelper{
         db.execSQL(sql_compra);
         db.execSQL(sql_compraIngrediente);
         db.execSQL(sql_ingrediente);
+        Log.e("BD", "Banco de dados criado com sucesso.");
     }
 
     @Override
@@ -106,6 +107,7 @@ public class CriaBanco extends SQLiteOpenHelper{
                 COL_CLIENTE_SOBRENOME + ") VALUES (?,?)";
         db.execSQL(sql, new String[]{nome, sobrenome});
         db.close();
+        Log.e("BD", "Cliente adicionado com sucesso.");
     }
     public void addVenda(int idCliente, double valor, int quantidade, String data){
         SQLiteDatabase db = this.getWritableDatabase();
@@ -116,6 +118,7 @@ public class CriaBanco extends SQLiteOpenHelper{
                 COL_VENDA_DATA + ") VALUES (?,?,?,?)";
         db.execSQL(sql, new Object[]{idCliente, valor, quantidade, data});
         db.close();
+        Log.e("BD", "Venda adicionada com sucesso.");
     }
     public void addCompra(String lugar){
         SQLiteDatabase db = this.getWritableDatabase();
@@ -123,6 +126,7 @@ public class CriaBanco extends SQLiteOpenHelper{
                 COL_COMPRA_LUGAR + ") VALUES (?)";
         db.execSQL(sql, new String[]{lugar});
         db.close();
+        Log.e("BD", "Compra adicionada com sucesso.");
     }
     public void addCompraIngrediente(int idIngrediente, int idCompra, int quantidade, double preco){
         SQLiteDatabase db = this.getWritableDatabase();
@@ -133,6 +137,7 @@ public class CriaBanco extends SQLiteOpenHelper{
                 COL_COMPRA_INGR_PRECO + ") VALUES (?,?,?,?)";
         db.execSQL(sql, new Object[]{idIngrediente, idCompra, quantidade, preco});
         db.close();
+        Log.e("BD", "CompraIngrediente adicionado com sucesso.");
     }
     public void addIngrediente(String nome, String unidadeMedida){
         SQLiteDatabase db = this.getWritableDatabase();
@@ -141,73 +146,153 @@ public class CriaBanco extends SQLiteOpenHelper{
                 COL_INGREDIENTE_MEDIDA + ") VALUES (?,?)";
         db.execSQL(sql, new String[]{nome, unidadeMedida});
         db.close();
+        Log.e("BD", "Ingrediente adicionado com sucesso.");
     }
 
-    public void printarClientes(){
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM " + TABELA_CLIENTE, null);
-        if (cursor != null){
-            if (cursor.moveToFirst()){
-                do{
-                    int id = cursor.getInt(cursor.getColumnIndexOrThrow(COL_CLIENTE_ID));
-                    String nome = cursor.getString(cursor.getColumnIndexOrThrow(COL_CLIENTE_NOME));
-                    String sobrenome = cursor.getString(cursor.getColumnIndexOrThrow(COL_CLIENTE_SOBRENOME));
-
-                    Log.d("BANCO", "ID: " + id + " Nome: " + nome + " Sobrenome: " + sobrenome);
-
-                }while(cursor.moveToNext());
-            }
-            cursor.close();
-        }
+    public void RemoverCliente(int id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String sql = "DELETE FROM " + TABELA_CLIENTE + " WHERE " + COL_CLIENTE_ID + " = ?";
+        db.execSQL(sql, new String[]{String.valueOf(id)});
         db.close();
+        Log.e("BD", "Cliente removido com sucesso.");
     }
-    public void printarVendas(){
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM " + TABELA_VENDA, null);
-        if (cursor != null){
-            if (cursor.moveToFirst()){
-                do{
-                    int id = cursor.getInt(cursor.getColumnIndexOrThrow(COL_VENDA_ID));
-                    int idCliente = cursor.getInt(cursor.getColumnIndexOrThrow(COL_VENDA_CLIENTE));
-                    double valor = cursor.getDouble(cursor.getColumnIndexOrThrow(COL_VENDA_VALOR));
-                    int quantidade = cursor.getInt(cursor.getColumnIndexOrThrow(COL_VENDA_QUANTIDADE));
-                    String data = cursor.getString(cursor.getColumnIndexOrThrow(COL_VENDA_DATA));
-
-                    Log.d("BANCO", "ID: " + id + " ID Cliente: " + idCliente + " Valor: " + valor +
-                            " Quantidade: " + quantidade + " Data: " + data);
-
-                }while(cursor.moveToNext());
-            }
-            cursor.close();
-        }
+    public void RemoverVenda(int id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String sql = "DELETE FROM " + TABELA_VENDA + " WHERE " + COL_VENDA_ID + " = ?";
+        db.execSQL(sql, new String[]{String.valueOf(id)});
         db.close();
+        Log.e("BD", "Venda removida com sucesso.");
     }
-    public void printarCompras(){
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM " + TABELA_COMPRA, null);
-        if (cursor != null){
-            if (cursor.moveToFirst()){
-                do{
-                    int id = cursor.getInt(cursor.getColumnIndexOrThrow(COL_COMPRA_ID));
-                    String lugar = cursor.getString(cursor.getColumnIndexOrThrow(COL_COMPRA_LUGAR));
-                    Cursor ingr = db.rawQuery("SELECT * FROM " + TABELA_COMPRA_INGREDIENTE + " WHERE " +
-                            COL_COMPRA_INGR_COMPRA_ID + " = ?", new String[]{String.valueOf(id)});
-                    if (ingr != null) {
-                        if (ingr.moveToFirst()) {
-                            do {
-                                int ingrId = ingr.getInt(ingr.getColumnIndexOrThrow(COL_COMPRA_INGR_ID));
-                                int ingrQuantidade = ingr.getInt(ingr.getColumnIndexOrThrow(COL_COMPRA_INGR_QUANTIDADE));
-                                double ingrPreco = ingr.getDouble(ingr.getColumnIndexOrThrow(COL_COMPRA_INGR_PRECO));
-                                Log.d("BANCO", "ID Compra: " + id + " ID Ingrediente: " + ingrId +
-                                        " Quantidade: " + ingrQuantidade + " Preço: " + ingrPreco);
-                            } while (ingr.moveToNext());
-                        }
-                        ingr.close();
-                    }
-                }while(cursor.moveToNext());
-            }
-            cursor.close();
+
+    public void removerCompra(int id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String sql = "DELETE FROM " + TABELA_COMPRA + " WHERE " + COL_COMPRA_ID + " = ?";
+        db.execSQL(sql, new String[]{String.valueOf(id)});
+        db.close();
+        Log.e("BD", "Compra removida com sucesso.");
+    }
+    public void removerCompraIngrediente(int id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String sql = "DELETE FROM " + TABELA_COMPRA_INGREDIENTE + " WHERE " + COL_COMPRA_INGR_ID + " = ?";
+        db.execSQL(sql, new String[]{String.valueOf(id)});
+        db.close();
+        Log.e("BD", "CompraIngrediente removido com sucesso.");
+    }
+
+    public void removerIngrediente(int id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String sql = "DELETE FROM " + TABELA_INGREDIENTE + " WHERE " + COL_INGREDIENTE_ID + " = ?";
+        db.execSQL(sql, new String[]{String.valueOf(id)});
+        db.close();
+        Log.e("BD", "Ingrediente removido com sucesso.");
+    }
+    public Boolean limparBanco() {
+        try {
+            SQLiteDatabase db = this.getWritableDatabase();
+            db.execSQL("DELETE FROM " + TABELA_CLIENTE);
+            db.execSQL("DELETE FROM " + TABELA_VENDA);
+            db.execSQL("DELETE FROM " + TABELA_COMPRA);
+            db.execSQL("DELETE FROM " + TABELA_COMPRA_INGREDIENTE);
+            db.execSQL("DELETE FROM " + TABELA_INGREDIENTE);
+            db.close();
+            Log.e ("BD", "Banco de dados limpo com sucesso.");
+            return true;
         }
+        catch (Exception e) {
+            Log.e("BD", "Erro ao limpar o banco de dados: " + e.getMessage());
+            return false;
+        }
+    }
+    public Cursor consultarClientes() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String sql = Querys.SELECT_ALL_CLIENTES;
+        return db.rawQuery(sql, null);
+    }
+    public Cursor consultarVendas() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String sql = Querys.SELECT_ALL_VENDAS;
+        return db.rawQuery(sql, null);
+    }
+    public Cursor consultarCompras() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String sql = Querys.SELECT_ALL_COMPRAS;
+        return db.rawQuery(sql, null);
+    }
+    public Cursor consultarIngredientes() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String sql = Querys.SELECT_ALL_INGREDIENTES;
+        return db.rawQuery(sql, null);
+    }
+    public Cursor consultarIngredientesPorCompraId(int idCompra) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String sql = Querys.SELECT_INGREDIENTES_BY_COMPRA_ID;
+        return db.rawQuery(sql, new String[]{String.valueOf(idCompra)});
+    }
+    public Cursor consultarClientePorId(int id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String sql = Querys.SELECT_CLIENTE_BY_ID;
+        return db.rawQuery(sql, new String[]{String.valueOf(id)});
+    }
+    public Cursor consultarVendaPorId(int id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String sql = Querys.SELECT_VENDA_BY_ID;
+        return db.rawQuery(sql, new String[]{String.valueOf(id)});
+    }
+    public Cursor consultarCompraPorId(int id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String sql = Querys.SELECT_COMPRA_BY_ID;
+        return db.rawQuery(sql, new String[]{String.valueOf(id)});
+    }
+    public Cursor comprasPorClienteId(int idCliente) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String sql = Querys.SELECT_COMPRAS_BY_CLIENTE_ID;
+        return db.rawQuery(sql, new String[]{String.valueOf(idCliente)});
+    }
+    public void printarTabelas() {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // Cliente
+        Cursor c = db.rawQuery(Querys.SELECT_ALL_CLIENTES, null);
+        Log.d("BD", "Tabela Cliente:");
+        while (c.moveToNext()) {
+            Log.d("BD", "id: " + c.getInt(0) + ", nome: " + c.getString(1) + ", sobrenome: " + c.getString(2));
+        }
+        c.close();
+
+        // Ingrediente
+        c = db.rawQuery(Querys.SELECT_ALL_INGREDIENTES, null);
+        Log.d("BD", "Tabela Ingrediente:");
+        while (c.moveToNext()) {
+            Log.d("BD", "id: " + c.getInt(0) + ", nome: " + c.getString(1) + ", unidade: " + c.getString(2));
+        }
+        c.close();
+
+        // Compra
+        c = db.rawQuery(Querys.SELECT_ALL_COMPRAS, null);
+        Log.d("BD", "Tabela Compra:");
+        while (c.moveToNext()) {
+            Log.d("BD", "id: " + c.getInt(0) + ", lugar: " + c.getString(1));
+        }
+        c.close();
+
+        // CompraIngrediente
+        c = db.rawQuery(Querys.SELECT_ALL_COMPRAS_INGREDIENTES, null);
+        Log.d("BD", "Tabela CompraIngrediente:");
+        while (c.moveToNext()) {
+            Log.d("BD", "id: " + c.getInt(0) + ", idCompra: " + c.getInt(1) + ", idIngrediente: " + c.getInt(2) +
+                    ", quantidade: " + c.getInt(3) + ", preco: " + c.getDouble(4));
+        }
+        c.close();
+
+        // Venda
+        c = db.rawQuery(Querys.SELECT_ALL_VENDAS, null);
+        Log.d("BD", "Tabela Venda:");
+        while (c.moveToNext()) {
+            Log.d("BD", "id: " + c.getInt(0) + ", idCliente: " + c.getInt(1) + ", valor: " + c.getDouble(2) +
+                    ", quantidade: " + c.getInt(3) + ", data: " + c.getString(4));
+        }
+        c.close();
+
         db.close();
     }
 }
