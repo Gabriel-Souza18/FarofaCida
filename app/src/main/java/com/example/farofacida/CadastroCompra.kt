@@ -31,6 +31,7 @@ class CadastroCompra : AppCompatActivity() {
     private lateinit var etNome: EditText
     private lateinit var etQuantidade: EditText
     private lateinit var etPreco: EditText
+    private lateinit var etLugar: EditText
 
     private lateinit var dialog: AlertDialog
 
@@ -63,35 +64,37 @@ class CadastroCompra : AppCompatActivity() {
         dialog.show()
     }
     fun CadastrarCompra(view: View){
+        val dataCompra = etDataCompra.text.toString()
+        val lugarCompra= findViewById<EditText>(R.id.etLugarCompra).text.toString()
+        db.addCompra(lugarCompra, dataCompra)
+        var i=0
+        for (i in 0 .. ingredientes.size - 1) {
+            db.addIngrediente(ingredientes[i].getNome())
+            val idIngrediente = db.getIdIngrediente(ingredientes[i].getNome())
+            db.addCompraIngrediente(
+                idIngrediente,
+                dataCompra,
+                ingredientes[i].getQuantidade(),
+                ingredientes[i].getPreco())
+        }
         Toast.makeText(this, "Compra Salva", Toast.LENGTH_SHORT).show()
-        // Aqui você pode adicionar a lógica para salvar a compra
     }
     fun AdicionarIngrediente(view: View){
-        var idIngrediente = db.getIdIngrediente(etNome.text.toString())
-        if (idIngrediente == -1){
-            db.addIngrediente(etNome.text.toString())
-            idIngrediente = db.getIdIngrediente(etNome.text.toString())
-        }
-        var dataCompra = etDataCompra.text.toString()
-
-        db.addCompraIngrediente(idIngrediente,
-            dataCompra,
+        var novoIngrediente = Ingrediente(
+            etNome.text.toString(),
             etQuantidade.text.toString().toInt(),
             etPreco.text.toString().toDouble()
         )
-
-        db.addIngrediente(
-            etNome.text.toString())
-
-        Toast.makeText(this, "Adicionando Ingrediente",Toast.LENGTH_SHORT).show()
+        ingredientes.add(novoIngrediente)
+        dialog.dismiss()
     }
     fun CancelarIngrediente(view: View){
-     dialog.dismiss()
+        dialog.dismiss()
     }
 
     fun atualizaLista(view: View){
-        val idCompra =
-       Toast.makeText(this, "Ingrediente adicionado com sucesso!", Toast.LENGTH_SHORT).show()
+
+        Toast.makeText(this, "Ingrediente adicionado com sucesso!", Toast.LENGTH_SHORT).show()
     }
 
     private fun mostrarSeletorData(){
